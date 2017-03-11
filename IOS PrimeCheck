@@ -1,0 +1,81 @@
+//
+//  ViewController.swift
+//  PrimeNum
+//
+//  Created by Apple on 10/03/2017.
+//  Copyright © 2017 packerapp. All rights reserved.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    
+    @IBOutlet weak var enterCheckNumerField: UITextField!
+    
+    @IBOutlet weak var checkAnswerLable: UILabel!
+    
+    
+    @IBAction func GoCheckButton(_ sender: UIButton) {
+        print("Button")
+        
+        if let inputText = enterCheckNumerField.text ,
+            let inputNum = Int(inputText) {
+                print("\(inputNum)")
+                checkPrime(input: inputNum){
+                    print("inputNum = \($0)")
+                    self.checkAnswerLable.text = $0
+                    self.checkAnswerLable.isHidden = false
+                }
+            }
+        
+        enterCheckNumerField.text = ""
+    }
+
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        enterCheckNumerField.becomeFirstResponder()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func checkPrime (inputNum:Int) -> String {
+        var isPrime: Int = 1 //1.is prime 2.is not prime 3.reenter
+        var answer: String
+        
+        if inputNum <= 0 {
+            isPrime = 3
+        }else if inputNum == 1 {
+            isPrime = 2
+        }else {
+            for i in 2..<inputNum {
+                if inputNum % i == 0 {
+                    // input number is not prime
+                    isPrime = 2
+                }
+            }
+        }
+        
+        switch isPrime {
+        case 1:
+            answer = "\(inputNum) is prime"
+        case 2:
+            answer = "\(inputNum) is not prime"
+        default:
+            answer = "please enter num big than zero"
+        }
+        return answer
+    }
+    
+    func checkPrime (input:Int,handler:(String) -> ()) {
+        handler(checkPrime(inputNum: input))
+    }
+    
+}
+
